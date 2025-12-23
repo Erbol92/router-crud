@@ -1,0 +1,16 @@
+.NewPost {
+    display: flex;
+    flex-direction: column;
+    max-width: 640px;
+    justify-content: space-around;
+    margin: auto;
+    padding: 10px;
+    height: 160px;
+    min-width: 320px;
+
+}
+
+.NewPost > div > button {
+    margin-top: 5px;
+}
+
