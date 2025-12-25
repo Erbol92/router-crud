@@ -5,6 +5,7 @@ export const PostsProvider = ({ children }) => {
     
     const [posts,setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [changeFlag, setFlag] = useState(false)
 
     const submitHandler = async (newPostText) => {
         try {
@@ -19,7 +20,7 @@ export const PostsProvider = ({ children }) => {
             if (!response.ok) {
             throw new Error('Не удалось добавить пост');
             }
-
+            setFlag(!changeFlag);
         } catch (error) {
             console.error('Ошибка при добавлении поста:', error);
         }
@@ -40,12 +41,12 @@ export const PostsProvider = ({ children }) => {
             }
         };
     getAllPosts()
-    },[])
+    },[changeFlag])
 
     
 
     return (
-        <PostsContext.Provider value={{ posts, submitHandler, loading, setPosts }}>
+        <PostsContext.Provider value={{ posts, submitHandler, loading, setPosts, setFlag, changeFlag }}>
             {children}
         </PostsContext.Provider>
     );

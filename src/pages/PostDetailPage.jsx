@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Post } from '../components/Posts/Post';
-import { data, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { HOME_ROUTE } from '../rout/routes';
 import { usePosts } from '../context/PostsContext';
 
@@ -10,7 +10,7 @@ export const PostDetailPage = () => {
     const [post, setPost] = useState();
     const [loading, setLoading] = useState(true);
     const navigator = useNavigate();
-    const {posts,setPosts} = usePosts();
+    const {posts,setPosts, setFlag, changeFlag} = usePosts();
 
     useEffect(()=>{
         const getPost = async ()=>{
@@ -21,7 +21,7 @@ export const PostDetailPage = () => {
                     }
                     const data = await response.json();
                     setPost(data.post);
-                    
+                    setFlag(!changeFlag)
                 } catch (error) {
                     console.error('Проблемы с выполнением запроса:', error);
                 } finally {
@@ -29,7 +29,7 @@ export const PostDetailPage = () => {
                 }
             };
         getPost()
-        },[id]);
+        },[id, changeFlag]);
     
     const delPost = async ()=>{
             try {
@@ -41,6 +41,7 @@ export const PostDetailPage = () => {
                 }
                 if (response.status==204) {
                     setPosts(prevPosts => prevPosts.filter(p => p.id !== id));
+                    setFlag()
                     navigator(HOME_ROUTE)
                 }
                 } catch (error) {
